@@ -2,28 +2,25 @@
 
 
 
-template <typename T>
-T Max(T a, T b)
+template <typename T1 , typename T2 >
+T1 Max(T1 a, T2 b)
 {
 	return b < a ? a : b;
 }
 
 template <typename T = int>
-T Foo(T t = 1)
+void Foo(T t = 1)
 {
 	std::cout << "calling foo" << std::endl;
-	return t;
 }
 
 int main(){
 
-	auto value1 = "a";
-	auto value2 = "b";
+	int value1 = 1;
+	double value2 = 6.9;
 
 	
 
-	std::cout << "Max : " << Max(value1, value2) << std::endl;
-
-	std::cout << Foo() << std::endl;
+	std::cout << "Max : " << Max<double>(value1, value2) << std::endl;
 
 }
