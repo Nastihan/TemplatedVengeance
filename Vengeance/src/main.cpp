@@ -8,8 +8,8 @@ T Max(T a, T b)
 	return b < a ? a : b;
 }
 
-template <typename T>
-T Foo(T t = 10)
+template <typename T = int>
+T Foo(T t = 1)
 {
 	std::cout << "calling foo" << std::endl;
 	return t;
