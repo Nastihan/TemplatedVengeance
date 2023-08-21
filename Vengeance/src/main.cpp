@@ -1,26 +1,63 @@
 #include <iostream>
 #include <type_traits>
+#include "Stack.h"
 
 
-template <typename T1, typename T2 >
-std::common_type_t<T1,T2> Max(T1 a, T2 b)
+class Part
 {
-	return b < a ? a : b;
+public:
+	Part()
+	{
+		std::cout << "part class constructor" << std::endl;
+	}
+	Part(int i)
+		:i(i)
+	{
+		std::cout << "part class constructor" << std::endl;
+	}
+
+private:
+	int i;
+};
+
+class Whole
+{
+public:
+	Whole(std::string name)
+		: name(name)
+	{
+		std::cout << "Whole class constructor" << std::endl;
+	}
+
+private:
+	std::string name;
+	Part part;
+
+};
+
+
+
+template <typename T>
+void Print1(T t)
+{
+	std::cout << t;
+}
+
+template <typename A, typename B, typename C>
+void Print3(A a, B b, C c)
+{
+	Print1(a);
+	std::cout << ", ";
+	Print1(b);
+	std::cout << ", ";
+	Print1(c);
+	std::cout << '\n';
 }
 
 
+int main()
+{
+	Print3(1, 2, 5);
 
-int main(){
-
-	int value1 = 1;
-	float value2 = 6.2;
-
-
-
-	
-
-	std::cout << "Max : " << Max(value1, value2) << std::endl;
-
-	auto temp = Max(value1, value2);
 
 }
