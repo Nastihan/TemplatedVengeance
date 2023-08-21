@@ -36,11 +36,30 @@ private:
 };
 
 
+template <typename T> 
+struct IsPointer
+{
+	static constexpr bool value = false;
+};
+
+template <typename T> 
+struct IsPointer<T*>
+{
+	static constexpr bool value = true;
+};
 
 template <typename T>
 void Print1(T t)
 {
-	std::cout << t;
+	if constexpr(IsPointer<T>::value)
+	{
+		std::cout << *t;
+	}
+	else
+	{
+		std::cout << t;
+	}
+
 }
 
 template <typename A, typename B, typename C>
@@ -57,7 +76,9 @@ void Print3(A a, B b, C c)
 
 int main()
 {
-	Print3(1, 2, 5);
+
+	int a = 10;
+	Print3(&a, 2, 5);
 
 
 }
