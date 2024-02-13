@@ -35,23 +35,36 @@ private:
 
 };
 
-
+// IsPointer
 template <typename T> 
 struct IsPointer
 {
 	static constexpr bool value = false;
 };
-
 template <typename T> 
 struct IsPointer<T*>
 {
 	static constexpr bool value = true;
 };
 
+// StripPointer
+template <typename T>
+struct StripPointer 
+{
+	using type = T;
+};
+
+template <typename T>
+struct StripPointer<T*>
+{
+	using type = T;
+};
+
 template <typename T>
 void Print1(T t)
 {
-	if constexpr(IsPointer<T>::value)
+	using tWithoutPtr = StripPointer<T>::type;
+	if constexpr(IsPointer<T>::value && std::is_floating_point<tWithoutPtr>::value)
 	{
 		std::cout << *t;
 	}
@@ -77,8 +90,11 @@ void Print3(A a, B b, C c)
 int main()
 {
 
-	int a = 10;
+	float a = 10.0;
 	Print3(&a, 2, 5);
+	
 
 
 }
+
+
