@@ -1,6 +1,8 @@
 #include <iostream>
 #include <type_traits>
+#include <vector>
 #include "Stack.h"
+#include <wtypes.h>
 
 
 class Part
@@ -87,11 +89,30 @@ void Print3(A a, B b, C c)
 }
 
 
+
+bool RuntimeContains(const std::string& search,const std::vector<std::string>& container, UINT startFrom = 0)
+{
+	if (search == container.at(startFrom))
+		return true;
+	else {
+		if (startFrom == container.size() - 1)
+			return false;
+		else
+			return RuntimeContains(search, container, startFrom + 1);
+	}
+}
+
+
+
+
+
+
 int main()
 {
 
-	float a = 10.0;
-	Print3(&a, 2, 5);
+	std::vector<std::string> vec{"bool", "double", "int"};
+
+	std::cout << std::boolalpha << RuntimeContains("float", vec) << std::endl;;
 	
 
 
