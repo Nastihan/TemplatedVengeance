@@ -2,6 +2,7 @@
 #include <type_traits>
 #include <vector>
 #include <wtypes.h>
+#include <tuple>
 
 #include "NastihanTimer.h"
 #include "Stack.h"
@@ -117,20 +118,40 @@ bool RuntimeContains(const std::string& search,const std::vector<std::string>& c
 	}
 }
 
-
+template <typename Search, typename Tuple,UINT startFrom = 0>
+struct Contains : ::If
+	< (std::is_same<std::tuple_element_t<startFrom, Tuple>, Search>::value),
+	// Then
+	std::true_type,
+	// Else
+	typename ::If
+		<
+		// Condition
+		(startFrom == std::tuple_size<Tuple>::value - 1),
+		// Then
+		std::false_type,
+		// Else
+		Contains<Search, Tuple, startFrom + 1>
+		>::type
+	>::type
+{};
 
 
 
 
 int main()
 {
+	std::tuple<int, float, std::string, UINT> tuple;
+	//std::vector<std::string> vec{ "bool", "double", "int" };
+
 	NastihanTimer timer{};
 
-	/*std::vector<std::string> vec{"bool", "double", "int"};
-	std::cout << std::boolalpha << RuntimeContains("float", vec) << std::endl;*/
+	//std::cout << std::boolalpha << RuntimeContains("bool", vec) << std::endl;
 
-	std::cout << std::boolalpha <<std::is_same<float, If<(1 < 2), float, double>::type>::value << std::endl;
+	//std::cout << std::boolalpha <<std::is_same<float, ::If<(1 < 2), float, double>::type>::value << std::endl;
 	
+	std::cout << std::boolalpha << Contains<double, decltype(tuple)>::value<< std::endl;
+
 	std::cout << timer.Mark() << std::endl;
 
 
