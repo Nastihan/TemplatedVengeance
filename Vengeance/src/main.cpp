@@ -90,6 +90,20 @@ void Print3(A a, B b, C c)
 }
 
 
+template <bool condition, typename Then, typename Else>
+struct If;
+
+template <typename Then, typename Else>
+struct If<true, Then, Else>
+{
+	using type = Then;
+};
+
+template<typename Then, typename Else>
+struct If<false, Then, Else>
+{
+	using type = Else;
+};
 
 bool RuntimeContains(const std::string& search,const std::vector<std::string>& container, UINT startFrom = 0)
 {
@@ -111,9 +125,11 @@ bool RuntimeContains(const std::string& search,const std::vector<std::string>& c
 int main()
 {
 	NastihanTimer timer{};
-	std::vector<std::string> vec{"bool", "double", "int"};
 
-	std::cout << std::boolalpha << RuntimeContains("float", vec) << std::endl;;
+	/*std::vector<std::string> vec{"bool", "double", "int"};
+	std::cout << std::boolalpha << RuntimeContains("float", vec) << std::endl;*/
+
+	std::cout << std::boolalpha <<std::is_same<float, If<(1 < 2), float, double>::type>::value << std::endl;
 	
 	std::cout << timer.Mark() << std::endl;
 
