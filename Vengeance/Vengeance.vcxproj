@@ -146,8 +146,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\NastihanTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\NastihanTimer.h" />
     <ClInclude Include="src\Stack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

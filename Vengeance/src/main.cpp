@@ -1,9 +1,10 @@
 #include <iostream>
 #include <type_traits>
 #include <vector>
-#include "Stack.h"
 #include <wtypes.h>
 
+#include "NastihanTimer.h"
+#include "Stack.h"
 
 class Part
 {
@@ -109,11 +110,12 @@ bool RuntimeContains(const std::string& search,const std::vector<std::string>& c
 
 int main()
 {
-
+	NastihanTimer timer{};
 	std::vector<std::string> vec{"bool", "double", "int"};
 
 	std::cout << std::boolalpha << RuntimeContains("float", vec) << std::endl;;
 	
+	std::cout << timer.Mark() << std::endl;
 
 
 }
