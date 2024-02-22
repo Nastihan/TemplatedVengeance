@@ -125,24 +125,20 @@
 //	PrintTupleImpl(std::forward<Tuple>(tuple), std::make_index_sequence <std::tuple_size<std::remove_reference_t<Tuple>>::value>{});
 //}
 
-bool ListRuntimeContains(const std::list<std::string>& list, const std::string& search)
+bool ListRuntimeContains(std::list<std::string> list, const std::string& search)
 {
-	static auto it = list.begin();
-	if (*(it) == search)
+	if (list.empty())
+	{
+		return false;
+	}
+	if (list.front() == search)
 	{
 		return true;
 	}
 	else
 	{
-		if (it == std::prev(list.end()))
-		{
-			return false;
-		}
-		else
-		{
-			it++;
-			return ListRuntimeContains(list, search);
-		}
+		list.pop_front();
+		return ListRuntimeContains(list, search);
 	}
 }
 
