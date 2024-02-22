@@ -108,28 +108,44 @@ struct Contains : ::If
 
 
 template <typename T>
-void PrintN(T t)
+void PrintN(T&& t)
 {
-	std::cout << t << '\n';
+	std::cout << std::forward<T>(t) << '\n';
 }
 
 template <typename T, typename... TtoN>
-void PrintN(T t0, TtoN... tN)
+void PrintN(T&& t0, TtoN&&... tN)
 {
-	std::cout << t0 << '\n';
-	PrintN(tN...);
+	std::cout << std::forward<T>(t0) << '\n';
+	PrintN(std::forward<TtoN>(tN)...);
 }
 
+
+template<typename Tuple, std::size_t ... indices>
+void PrintTupleImpl(Tuple&& tuple, std::index_sequence<indices...> )
+{
+	PrintN(std::get<indices>(std::forward<Tuple>(tuple))...);
+}
+
+template<typename Tuple>
+void PrintTuple(Tuple&& tuple)
+{
+	PrintTupleImpl(std::forward<Tuple>(tuple), std::make_index_sequence <std::tuple_size<std::remove_reference_t<Tuple>>::value>{});
+}
 
 
 int main()
 {
+	std::tuple<int, std::string, bool, float> tuple{ 1, "Nas", true, 3.14f };
+
+	std::cout << std::boolalpha;
 
 
 	NastihanTimer timer{};
 
-	
 	PrintN("hello",3 ,5.5f, true, 'f', "hi");
+
+	PrintTuple(tuple);
 
 	std::cout << timer.Mark() << std::endl;
 
