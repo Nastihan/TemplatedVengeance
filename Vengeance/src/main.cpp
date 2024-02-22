@@ -7,37 +7,6 @@
 #include "NastihanTimer.h"
 #include "Stack.h"
 
-class Part
-{
-public:
-	Part()
-	{
-		std::cout << "part class constructor" << std::endl;
-	}
-	Part(int i)
-		:i(i)
-	{
-		std::cout << "part class constructor" << std::endl;
-	}
-
-private:
-	int i;
-};
-
-class Whole
-{
-public:
-	Whole(std::string name)
-		: name(name)
-	{
-		std::cout << "Whole class constructor" << std::endl;
-	}
-
-private:
-	std::string name;
-	Part part;
-
-};
 
 // IsPointer
 template <typename T> 
@@ -138,19 +107,29 @@ struct Contains : ::If
 
 
 
+template <typename T>
+void PrintN(T t)
+{
+	std::cout << t << '\n';
+}
+
+template <typename T, typename... TtoN>
+void PrintN(T t0, TtoN... tN)
+{
+	std::cout << t0 << '\n';
+	PrintN(tN...);
+}
+
+
 
 int main()
 {
-	std::tuple<int, float, std::string, UINT> tuple;
-	//std::vector<std::string> vec{ "bool", "double", "int" };
+
 
 	NastihanTimer timer{};
 
-	//std::cout << std::boolalpha << RuntimeContains("bool", vec) << std::endl;
-
-	//std::cout << std::boolalpha <<std::is_same<float, ::If<(1 < 2), float, double>::type>::value << std::endl;
 	
-	std::cout << std::boolalpha << Contains<double, decltype(tuple)>::value<< std::endl;
+	PrintN("hello",3 ,5.5f, true, 'f', "hi");
 
 	std::cout << timer.Mark() << std::endl;
 
