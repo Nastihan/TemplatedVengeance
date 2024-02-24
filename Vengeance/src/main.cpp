@@ -142,14 +142,71 @@ bool ListRuntimeContains(std::list<std::string> list, const std::string& search)
 	}
 }
 
+
+template <typename ...>
+struct TypeList 
+{};
+
+template <typename TypeList>
+struct Empty : std::false_type
+{};
+
+template <>
+struct Empty<TypeList<>> : std::true_type
+{};
+
+template <typename TypeList>
+struct Front
+{
+};
+
+template <typename T0, typename... Tn>
+struct Front<TypeList<T0,Tn...>>
+{
+	using type = T0;
+};
+
+template <typename TypeList>
+struct PopFront
+{};
+
+template <typename T0, typename ... Tn>
+struct PopFront<TypeList<T0, Tn...>>
+{
+	using NewList = TypeList<Tn...>;
+};
+
+//template <typename TypeList, typename Search>
+//bool ListContains_T()
+//{
+//	if (Empty<TypeList>::value)
+//	{
+//		return false;
+//	}
+//	if (Front<TypeList>::type == search)
+//	{
+//		return true;
+//	}
+//	else
+//	{
+//		list.pop_front();
+//		return ListRuntimeContains(list, search);
+//	}
+//}
+
+
 int main()
 {
 	std::list<std::string> list{ "float", "char", "bool" };
 
+	TypeList<>list0;
+	TypeList<int, float, double> list1;
+
 	std::cout << std::boolalpha;
 	NastihanTimer timer{};
 
-	std::cout << ListRuntimeContains(list, "int") << '\n';
+	std::cout << Empty<decltype(list0)>::value << std::endl;
+
 
 
 	std::cout << timer.Mark() << std::endl;
